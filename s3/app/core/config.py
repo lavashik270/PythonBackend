@@ -21,7 +21,7 @@ class S3Settings(EnvBaseSettings):
 
 
 class Settings(S3Settings):
-    S3_KEY: str = "videos"
+    pass
 
 
 settings = Settings()

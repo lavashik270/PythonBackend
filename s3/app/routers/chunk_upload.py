@@ -75,7 +75,7 @@ async def complete_upload_handler(
                     merged_file.write(data)
 
     shutil.rmtree(upload_dir)
-    s3_key = f"{settings.S3_KEY}/{filename}"
+    s3_key = f"example/{filename}"  # Replace the example with your real path
 
     try:
         await s3_client.upload_file_multipart(settings.S3_BUCKET, s3_key, merged_filepath)

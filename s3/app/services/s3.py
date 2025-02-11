@@ -10,7 +10,7 @@ import base64
 import os
 
 
-class S3ClientException(Exception):
+class S3Exception(Exception):
     """ Custom exception for S3 operations. """
 
     def __init__(self, status_code: int, message: Any) -> None:
@@ -18,7 +18,7 @@ class S3ClientException(Exception):
         self.message = message
 
     def __str__(self) -> str:
-        return f"S3 Client Error with status code {self.status_code}: {self.message}"
+        return f"S3 Error with status code {self.status_code}: {self.message}"
 
 
 class S3Client:
@@ -95,7 +95,7 @@ class S3Client:
             async with session.put(url, data=data, headers=headers) as response:
                 if response.status not in (200, 204):
                     text = await response.text()
-                    raise S3ClientException(status_code=response.status, message=text)
+                    raise S3Exception(status_code=response.status, message=text)
 
     async def upload_file_multipart(self, bucket: str, key: str, file_path: str) -> None:
         """ Asynchronously upload a file to the specified S3 bucket using the HTTP POST method with multipart/form-data. This method utilizes an S3 POST policy with AWS Signature Version 4. """
@@ -148,4 +148,4 @@ class S3Client:
             async with session.post(url, data=form) as response:
                 if response.status not in (200, 204):
                     text = await response.text()
-                    raise S3ClientException(status_code=response.status, message=text)
+                    raise S3Exception(status_code=response.status, message=text)
